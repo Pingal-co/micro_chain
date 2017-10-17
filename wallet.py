@@ -1,21 +1,39 @@
+import crypto
+from transaction import Transaction 
+
 class Wallet(object):
     def __init__(self):
-        pass
+        self.private_key, self.public_key = crypto.gen_keypair()
+        self.address = crypto.pubkey_to_address(self.public_key)
 
-    def public_key(self):
-        pass
+    def get_public_key(self):
+        return crypto.encode_pubkey(self.public_key)
     
-    def private_key(self)
+    def get_private_key(self)
+        return crypto.encode_privkey(self.private_key)
+ 
+    def sign(self, msg):
+        return crypto.sign(msg, crypto.encode_privkey(self.private_key))
+
+    def verify(self, msg, signature):
+        return crypto.verify_sign(msg, crypto.encode_pubkey(self.public_key), signature)
+
+    def balance(self):
         pass
 
-    def address(self):
-        """
-        x,y = keys.public_key()
-        address(x,y) = addrHash(string(x) <> string(y))
-        addrHash(n) = sha256(sha256(ripemd160(sha256(n))))
+    def send(self, amount, recipient):
+        tx = Transaction(self, amount, recipient)
 
-        """
-        pass
+    def tx_serialize(self, tx):
+        
+        public_key = wallet.get_public_key()
+        sign = struct.pack("<B", len(self.signature))
+        sign += self.signature
+        sign += struct.pack("<B", len(public_key))
+        sign += public_key
+
+        return serial
+    
 
 class Address(object):
     def __init__(self):
