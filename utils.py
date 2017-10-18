@@ -108,3 +108,9 @@ def num_to_var_int(x):
     elif x < 65536: return from_int_to_byte(253)+encode(x, 256, 2)[::-1]
     elif x < 4294967296: return from_int_to_byte(254) + encode(x, 256, 4)[::-1]
     else: return from_int_to_byte(255) + encode(x, 256, 8)[::-1]
+
+def is_sha256(s):
+    return len(s) == 64
+
+def is_ripemd160(s):
+    return len(s) == 40
