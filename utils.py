@@ -14,9 +14,35 @@ code_strings = {
     256: ''.join([chr(x) for x in range(256)])
 }
 
+
+def hash160(string):
+    return safe_hexlify(bin_hash160(string))
+
+
+def bin_sha256(string):
+    binary_data = string if isinstance(string, bytes) else bytes(string, 'utf-8')
+    return hashlib.sha256(binary_data).digest()
+
+def sha256(string):
+    return bytes_to_hex_string(bin_sha256(string))
+
+def bin_ripemd160(string):
+    digest = hashlib.new('ripemd160', string).digest()
+    return digest
+
+def ripemd160(string):
+    return safe_hexlify(bin_ripemd160(string))
+
 def bin_dbl_sha256(s):
         bytes_to_hash = from_string_to_bytes(s)
         return hashlib.sha256(hashlib.sha256(bytes_to_hash).digest()).digest()
+
+def dbl_sha256(string):
+    return safe_hexlify(bin_dbl_sha256(string))
+
+def bin_ripemd_sha256(s):
+        return bin_ripemd160(bin_dbl_sha256(s))
+
 
 def lpad(msg, symbol, length):
         if len(msg) >= length:
